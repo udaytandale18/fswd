@@ -1,0 +1,80 @@
+Build Student Registration Portal using entities like component, State and Props
+
+ src/StudentForm.js
+
+import React, { useState } from 'react';
+
+const StudentForm = ({ addStudent }) => {
+  const [name, setName] = useState('');
+  const [grade, setGrade] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addStudent({ name, grade });
+    setName('');
+    setGrade('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      </label>
+      <label>
+        Grade:
+        <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} />
+      </label>
+      <button type="submit">Add Student</button>
+    </form>
+  );
+};
+
+export default StudentForm;
+
+// src/StudentList.js
+
+import React from 'react';
+
+const StudentList = ({ students }) => (
+  <div>
+    <h2>Student List</h2>
+    <ul>
+      {students.map((student, index) => (
+        <li key={index}>
+          {student.name} - Grade: {student.grade}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+export default StudentList;
+
+// src/App.js
+import React, { useState } from 'react';
+import StudentForm from './StudentForm';
+import StudentList from './StudentList';
+
+const App = () => {
+  const [students, setStudents] = useState([]);
+
+  const addStudent = (student) => {
+    setStudents([...students, student]);
+  };
+
+  return (
+    <div>
+      <h1>Student Registration Portal</h1>
+      <StudentForm addStudent={addStudent} />
+      <StudentList students={students} />
+    </div>
+  );
+};
+
+export default App;
+
+Run the App
+           npm start
+
+Open your browser and go to http://localhost:3000 to see your student registration portal.
